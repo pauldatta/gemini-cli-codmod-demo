@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "codmod_server": {
+      "command": "./codmod",
+      "args": [
+        "mcpserver"
+      ],
+      "timeout": 600000,
+      "trust": true
+    }
+  }
+}

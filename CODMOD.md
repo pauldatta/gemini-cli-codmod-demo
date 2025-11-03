@@ -187,3 +187,56 @@ Enable shell completion using `codmod completion <shell_name> --help` (e.g., `co
 -   **Permission denied:** Ensure execute permission (`chmod +x codmod`).
 -   **CLI hangs:** Verify sufficient quota for the Gemini model (default: `gemini-2.5-pro`).
 -   **Reporting errors:** Collect logs with `codmod collect-logs -o "codmod_logs.zip"`.
+
+## Gemini CLI Integration (Experimental)
+
+`codmod` can be integrated with the Gemini CLI to expose its commands as tools. This is an experimental feature.
+
+### Starting the MCP Server
+
+The `codmod mcpserver` command starts a local server that integrates with the Gemini CLI.
+
+```bash
+codmod mcpserver
+```
+
+### Configuration
+
+To enable the integration, you need to configure the Gemini CLI by editing the `~/.gemini/settings.json` file. Add or update the `mcpServers` section to include the `codmod_server` configuration:
+
+```json
+{
+  "mcpServers": {
+    "codmod_server": {
+      "command": "/path/to/your/codmod/codmod",
+      "args": [
+        "mcpserver"
+      ],
+      "timeout": 600000,
+      "trust": true
+    }
+  }
+}
+```
+
+Replace `/path/to/your/codmod/codmod` with the actual path to your `codmod` binary.
+
+### Available Tools
+
+When the MCP server is running, the following `codmod` commands become available as tools in the Gemini CLI:
+
+*   `get_codmod_version`: Get the version of the CodMod tool.
+*   `assess_java_modernization`: Assess Java modernization readiness.
+*   `assess_dotnet_modernization`: Assess .NET modernization readiness.
+*   `create_report`: Creates a default report by analyzing your codebase.
+*   `create_full_report`: Creates a full overview report.
+*   `create_custom_report`: Create a custom report based on provided context.
+*   `create_section_report`: Add a new section to an existing HTML report.
+*   `create_data_layer_report`: Creates a data layer report.
+*   `revise_section`: Revise a specific section of an existing HTML report.
+*   `list_sections`: List the sections of an HTML codmod report.
+*   `config_list`: Print all configuration properties.
+*   `config_get`: Get a configuration property value.
+*   `config_set`: Set a configuration property value.
+*   `config_unset`: Reset a configuration property.
+*   `collect_logs`: Create an archive of config and log files.
